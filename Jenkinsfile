@@ -4,17 +4,16 @@ pipeline {
         terraform "terraform"
     }
     environment {
-        HTTP_TRIGGER = "httptriggerfuncxxxx"
         TIMER_TRIGGER = "timertriggerfuncxxxx"  
         RES_GROUP = "rg_abdel_proc" 
         BLOB_NAME = "blobnametrigger"
         QUEUE_NAME = "queuenametrigger"
+        SVC_PLAN = "svcplantimer"
     }
     stages {
         stage('Checkout') {
             steps {
                 script {
-                    cleanWs()
                     checkout scmGit(branches: [[name: '*/TimerTrigger']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHubcredentials', url: 'https://github.com/Selmouni-Abdelilah/AzureFunctions']])
                 }
             }
@@ -31,7 +30,7 @@ pipeline {
                 script {
                     dir('Terraform') {
                             sh 'terraform init -upgrade'
-                            sh "terraform apply --auto-approve -var 'rg_name=${env.RES_GROUP}' -var 'function_name=${env.TIMER_TRIGGER}' -var 'blob_name=${env.BLOB_NAME}' -var 'myqueue_name=${env.QUEUE_NAME}'"    
+                            sh "terraform apply --auto-approve -var 'svc_plan=${env.SVC_PLAN}' -var 'rg_name=${env.RES_GROUP}' -var 'function_name=${env.TIMER_TRIGGER}' -var 'blob_name=${env.BLOB_NAME}' -var 'myqueue_name=${env.QUEUE_NAME}'"    
 
                     }
             }
