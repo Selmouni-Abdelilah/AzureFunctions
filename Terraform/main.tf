@@ -18,22 +18,10 @@ resource "azurerm_service_plan" "svcplan" {
   sku_name            = "Y1"
 }
 
-resource "azurerm_storage_queue" "queue" {
-  name                 = var.myqueue_name
-  storage_account_name = azurerm_storage_account.storage.name
-}
-
 resource "azurerm_storage_container" "container" {
   name                  = "content"
   storage_account_name  = azurerm_storage_account.storage.name
   container_access_type = "private"
-}
-
-resource "azurerm_storage_blob" "blob" {
-  name                   = var.blob_name
-  storage_account_name   = azurerm_storage_account.storage.name
-  storage_container_name = azurerm_storage_container.container.name
-  type                   = "Block"
 }
 
 resource "azurerm_linux_function_app" "function" {
