@@ -4,7 +4,7 @@ pipeline {
         terraform "terraform"
     }
     environment {
-        HTTP_TRIGGER = "httptriggerfunc"  
+        HTTP_TRIGGER = "httptriggerfuncxxxx"  
         RES_GROUP = "rg_abdel_proc" 
         BLOB_NAME = "blobnametrigger"
         QUEUE_NAME = "queuenametrigger"
