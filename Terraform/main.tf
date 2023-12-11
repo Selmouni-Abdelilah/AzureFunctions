@@ -11,7 +11,7 @@ resource "azurerm_storage_account" "storage" {
 }
 
 resource "azurerm_service_plan" "svcplan" {
-  name                = "example-app-service-plan"
+  name                = "svcplanhttp"
   resource_group_name = data.azurerm_resource_group.rg.name
   location            = data.azurerm_resource_group.rg.location
   os_type             = "Linux"
