@@ -39,7 +39,7 @@ pipeline {
         stage('Deploy Queue trigger Function') {
             steps {
                 script { 
-                   dir('BlobTrigger') {
+                   dir('QueueTrigger') {
                         sh 'python3 -m pip install -r requirements.txt'
                         sh 'zip -r  queue.zip ./*'
                         sh "az functionapp deployment source config-zip -g ${env.RES_GROUP} -n ${env.QUEUE_TRIGGER} --src queue.zip"                                   
