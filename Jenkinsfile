@@ -31,7 +31,6 @@ pipeline {
                 script {
                     dir('Terraform') {
                             sh 'terraform init -upgrade'
-                            sh "terraform apply --auto-approve -var 'rg_name=${env.RES_GROUP}' -var 'function_name=${env.HTTP_TRIGGER}' -var 'blob_name=${env.BLOB_NAME}' -var 'myqueue_name=${env.QUEUE_NAME}'"
                             sh "terraform apply --auto-approve -var 'rg_name=${env.RES_GROUP}' -var 'function_name=${env.TIMER_TRIGGER}' -var 'blob_name=${env.BLOB_NAME}' -var 'myqueue_name=${env.QUEUE_NAME}'"    
 
                     }
@@ -39,18 +38,7 @@ pipeline {
             }
         }    
     
-        stage('Deploy Http trigger Function') {
-            steps {
-                script { 
-                   dir('httpTrigger') {
-                        sh 'python3 -m pip install -r requirements.txt'
-                        sh 'zip -r  http.zip ./*'
-                        sh "az functionapp deployment source config-zip -g ${env.RES_GROUP} -n ${env.HTTP_TRIGGER} --src http.zip"                                   
-                    }
-                }
-            }
-
-        }
+        
         stage('Deploy Timer trigger Function') {
             steps {
                 script { 
