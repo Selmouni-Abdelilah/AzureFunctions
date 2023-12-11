@@ -40,7 +40,7 @@ pipeline {
             steps {
                 script { 
                    dir('httpTrigger') {
-                        sh 'python -m pip install -r requirements.txt'
+                        sh 'python3 -m pip install -r requirements.txt'
                         sh 'zip -r  http.zip ./*'
                         sh "az functionapp deployment source config-zip -g ${env.RES_GROUP} -n ${env.HTTP_TRIGGER} --src http.zip"    
                     
