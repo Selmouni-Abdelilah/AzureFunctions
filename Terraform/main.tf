@@ -40,6 +40,12 @@ resource "azurerm_linux_function_app" "function" {
   storage_account_name       = azurerm_storage_account.storage.name
   storage_account_access_key = azurerm_storage_account.storage.primary_access_key
   service_plan_id            = azurerm_service_plan.svcplan.id
+  
+  app_settings = {
+    "BlobStorageConnectionString" = azurerm_storage_account.storage.primary_connection_string
+    "BlobContainerName"            = azurerm_storage_container.container.name
+    "BlobTriggerName"              = azurerm_storage_blob.blob.name
+  }
 
   site_config {
     application_stack {
