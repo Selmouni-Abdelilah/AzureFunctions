@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     cleanWs()
-                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHubcredentials', url: 'https://github.com/Selmouni-Abdelilah/AzureFunctions']])
+                    checkout scmGit(branches: [[name: '*/httpTrigger']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHubcredentials', url: 'https://github.com/Selmouni-Abdelilah/AzureFunctions']])
                 }
             }
         }
@@ -31,28 +31,25 @@ pipeline {
                 script {
                     dir('Terraform') {
                             sh 'terraform init -upgrade'
-                            sh "terraform apply --auto-approve -var 'rg_name=${env.RES_GROUP}' -var 'function_name=${env.TIMER_TRIGGER}' -var 'blob_name=${env.BLOB_NAME}' -var 'myqueue_name=${env.QUEUE_NAME}'"    
+                            sh "terraform apply --auto-approve -var 'rg_name=${env.RES_GROUP}' -var 'function_name=${env.HTTP_TRIGGER}' -var 'blob_name=${env.BLOB_NAME}' -var 'myqueue_name=${env.QUEUE_NAME}'"    
 
                     }
             }
             }
         }    
     
-        
-        stage('Deploy Timer trigger Function') {
+        stage('Deploy Http trigger Function') {
             steps {
                 script { 
-                   dir('Timerrigger') {
+                   dir('httpTrigger') {
                         sh 'python3 -m pip install -r requirements.txt'
-                        sh 'zip -r  timer.zip ./*'
-                        sh "az functionapp deployment source config-zip -g ${env.RES_GROUP} -n ${env.TIMER_TRIGGER} --src timer.zip"
-                    
-                                   
+                        sh 'zip -r  http.zip ./*'
+                        sh "az functionapp deployment source config-zip -g ${env.RES_GROUP} -n ${env.HTTP_TRIGGER} --src http.zip"                                   
                     }
                 }
             }
 
         }
-
+        
     }
 }
