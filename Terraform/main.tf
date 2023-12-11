@@ -37,7 +37,7 @@ resource "azurerm_storage_blob" "blob" {
   type                   = "Block"
 }
 
-resource "azurerm_linux_function_app" "function"" {
+resource "azurerm_linux_function_app" "function" {
   name                = var.function_name
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
@@ -48,7 +48,7 @@ resource "azurerm_linux_function_app" "function"" {
 
   site_config {
     application_stack {
-        python_version = "3.11 "      
+        python_version = "3.11"      
     }
   }
 }
