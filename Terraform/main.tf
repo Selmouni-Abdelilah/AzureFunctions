@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "rg" {
-  name     = "rs_abdel_proc"
+  name     = var.rg_name
   location = "West Europe"
 }
 
@@ -11,40 +11,44 @@ resource "azurerm_storage_account" "storage" {
   account_replication_type = "LRS"
 }
 
-resource "azurerm_app_service_plan" "svcplan" {
-  name                = "azure-functions-example-sp"
-  location            = azurerm_resource_group.rg.location
+resource "azurerm_service_plan" "svcplan" {
+  name                = "example-app-service-plan"
   resource_group_name = azurerm_resource_group.rg.name
-  kind                = "Linux"
-  reserved            = true
-
-  sku {
-    tier = "Dynamic"
-    size = "Y1"
-  }
-
-  lifecycle {
-    ignore_changes = [
-      kind
-    ]
-  }
+  location            = azurerm_resource_group.rg.location
+  os_type             = "Linux"
+  sku_name            = "Y1"
 }
 
-resource "azurerm_function_app" "function" {
-  name                       = var.function_name
-  location                   = azurerm_resource_group.rg.location
-  resource_group_name        = azurerm_resource_group.rg.name
-  app_service_plan_id        = azurerm_app_service_plan.svcplan.id
+resource "azurerm_storage_queue" "queue" {
+  name                 = var.myqueue_name
+  storage_account_name = azurerm_storage_account.storage.name
+}
+
+resource "azurerm_storage_container" "container" {
+  name                  = "content"
+  storage_account_name  = azurerm_storage_account.storage.name
+  container_access_type = "private"
+}
+
+resource "azurerm_storage_blob" "blob" {
+  name                   = var.blob_name
+  storage_account_name   = azurerm_storage_account.storage.name
+  storage_container_name = azurerm_storage_container.container.name
+  type                   = "Block"
+}
+
+resource "azurerm_linux_function_app" "function"" {
+  name                = var.function_name
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+
   storage_account_name       = azurerm_storage_account.storage.name
   storage_account_access_key = azurerm_storage_account.storage.primary_access_key
-  os_type                    = "linux"
-  version                    = "~4"
-
-  app_settings {
-    FUNCTIONS_WORKER_RUNTIME = "python"
-  }
+  service_plan_id            = azurerm_service_plan.svcplan.id
 
   site_config {
-    linux_fx_version = "python|3.9"
+    application_stack {
+        python_version = 3.11       
+    }
   }
 }
