@@ -4,8 +4,7 @@ pipeline {
         terraform "terraform"
     }
     environment {
-        HTTP_TRIGGER = "httptriggerfuncxxxx"
-        TIMER_TRIGGER = "timertriggerfuncxxxx"  
+        HTTP_TRIGGER = "httptriggerfuncxxxx"  
         RES_GROUP = "rg_abdel_proc" 
         BLOB_NAME = "blobnametrigger"
         QUEUE_NAME = "queuenametrigger"
@@ -14,7 +13,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    cleanWs()
                     checkout scmGit(branches: [[name: '*/httpTrigger']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHubcredentials', url: 'https://github.com/Selmouni-Abdelilah/AzureFunctions']])
                 }
             }
