@@ -45,10 +45,11 @@ pipeline {
                         sh "az functionapp deployment source config-zip -g ${env.RES_GROUP} -n ${env.HTTP_TRIGGER} --src http.zip"    
                     
                                    
+                    }
                 }
             }
+
         }
 
     }
-
 }
