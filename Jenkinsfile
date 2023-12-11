@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script {
                     cleanWs()
-                    checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHubcredentials', url: 'https://github.com/Selmouni-Abdelilah/AzureFunctions']])
+                    checkout scmGit(branches: [[name: '*/BlobTrigger']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHubcredentials', url: 'https://github.com/Selmouni-Abdelilah/AzureFunctions']])
                 }
             }
         }
