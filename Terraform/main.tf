@@ -1,6 +1,5 @@
 data "azurerm_resource_group" "rg" {
   name     = var.rg_name
-  location = "West Europe"
 }
 
 resource "azurerm_storage_account" "storage" {
