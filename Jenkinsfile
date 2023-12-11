@@ -30,7 +30,7 @@ pipeline {
                 script {
                     dir('Terraform') {
                             sh 'terraform init -upgrade'
-                            sh "terraform apply --auto-approve -var 'rg_name=${env.RES_GROUP}' -var 'function_name=${env.HTTP_TRIGGER}' -var 'blob_name=${env.BLOB_NAME} -var 'myqueue_name=${env.QUEUE_NAME} '"
+                            sh "terraform apply --auto-approve -var 'rg_name=${env.RES_GROUP}' -var 'function_name=${env.HTTP_TRIGGER}' -var 'blob_name=${env.BLOB_NAME}' -var 'myqueue_name=${env.QUEUE_NAME}'"
                     }
             }
             }
