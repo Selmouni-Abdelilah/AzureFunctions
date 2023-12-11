@@ -40,7 +40,7 @@ pipeline {
         stage('Deploy Timer trigger Function') {
             steps {
                 script { 
-                   dir('Timerrigger') {
+                   dir('TimerTrigger') {
                         sh 'python3 -m pip install -r requirements.txt'
                         sh 'zip -r  timer.zip ./*'
                         sh "az functionapp deployment source config-zip -g ${env.RES_GROUP} -n ${env.TIMER_TRIGGER} --src timer.zip"
