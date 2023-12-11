@@ -8,7 +8,6 @@ pipeline {
         RES_GROUP = "rg_abdel_proc" 
         BLOB_NAME = "blobnametrigger"
         QUEUE_NAME = "queuenametrigger"
-        SVC_PLAN = "svcplantimer"
     }
     stages {
         stage('Checkout') {
@@ -30,7 +29,7 @@ pipeline {
                 script {
                     dir('Terraform') {
                             sh 'terraform init -upgrade'
-                            sh "terraform apply --auto-approve -var 'svc_plan=${env.SVC_PLAN}' -var 'rg_name=${env.RES_GROUP}' -var 'function_name=${env.TIMER_TRIGGER}' -var 'blob_name=${env.BLOB_NAME}' -var 'myqueue_name=${env.QUEUE_NAME}'"    
+                            sh "terraform apply --auto-approve  -var 'rg_name=${env.RES_GROUP}' -var 'function_name=${env.TIMER_TRIGGER}' -var 'blob_name=${env.BLOB_NAME}' -var 'myqueue_name=${env.QUEUE_NAME}'"    
 
                     }
             }
