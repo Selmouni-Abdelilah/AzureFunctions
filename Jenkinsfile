@@ -4,10 +4,10 @@ pipeline {
         terraform "terraform"
     }
     environment {
-        HTTP_TRIGGER = "httptrigger_func"  
+        HTTP_TRIGGER = "httptriggerfunc"  
         RES_GROUP = "rg_abdel_proc" 
-        BLOB_NAME = "blobname_trigger"
-        QUEUE_NAME = "queuename_trigger"
+        BLOB_NAME = "blobnametrigger"
+        QUEUE_NAME = "queuenametrigger"
     }
     stages {
         stage('Checkout') {

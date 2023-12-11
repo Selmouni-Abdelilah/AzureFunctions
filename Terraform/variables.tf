@@ -1,11 +1,11 @@
 variable "function_name" {
   type        = string
-  default     = "myfunction_name"
+  default     = "myfunctiontrigger"
 }
 
 variable "myqueue_name" {
   type        = string
-  default     = "myqueue_name"
+  default     = "myqueuenametrigger"
 }
 
 variable "blob_name" {
