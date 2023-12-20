@@ -6,8 +6,7 @@ pipeline {
     environment {
         HTTP_TRIGGER = "httptriggerfuncxxxx"  
         RES_GROUP = "rg_abdel_proc" 
-        BLOB_NAME = "blobnametrigger"
-        QUEUE_NAME = "queuenametrigger"
+        APIM_NAME = "apimanagment1937xxx"
     }
     stages {
         stage('Checkout') {
@@ -29,7 +28,7 @@ pipeline {
                 script {
                     dir('Terraform') {
                             sh 'terraform init -upgrade'
-                            sh "terraform apply --auto-approve -var 'rg_name=${env.RES_GROUP}' -var 'function_name=${env.HTTP_TRIGGER}' -var 'blob_name=${env.BLOB_NAME}' -var 'myqueue_name=${env.QUEUE_NAME}'"    
+                            sh "terraform apply --auto-approve -var 'rg_name=${env.RES_GROUP}' -var 'function_name=${env.HTTP_TRIGGER}' -var 'apim_name=${env.APIM_NAME}' "   
 
                     }
             }
@@ -47,6 +46,33 @@ pipeline {
                 }
             }
 
+        }
+        stage('API import'){
+            steps {
+                script {
+                    sh "sed -i 's~url:~url: https://${APIM_NAME}.azure-api.net/httptriggerfn~' openapi.yaml"
+                    sh '''
+                    az apim api import \
+                        --path "/HttpTriggerFn" \
+                        --resource-group ${RES_GROUP} \
+                        --service-name ${APIM_NAME} \
+                        --api-id ${HTTP_TRIGGER} \
+                        --api-type http \
+                        --display-name "APIM Function App" \
+                        --protocols https \
+                        --service-url "https://${HTTP_TRIGGER}.azurewebsites.net/api/${HTTP_TRIGGER}?clientId=${APIM_NAME}" \
+                        --specification-format OpenApi \
+                        --specification-path "openapi.yaml"
+                    '''
+                    sh '''
+                    az apim product api add \
+                        --api-id ${HTTP_TRIGGER} \
+                        --product-id starter \
+                        --resource-group ${RES_GROUP} \
+                        --service-name ${APIM_NAME}
+                    '''
+                }
+            }
         }
         
     }
