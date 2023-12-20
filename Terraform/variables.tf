@@ -17,3 +17,7 @@ variable "rg_name" {
   type        = string
   default     = "rg"
 }
+variable "apim_name" {
+  type        = string
+  default     = "apimanagement5467"
+}
