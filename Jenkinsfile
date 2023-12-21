@@ -64,13 +64,6 @@ pipeline {
                         --specification-format OpenApi \
                         --specification-path "openapi.yaml"
                     '''
-                    sh '''
-                    az apim product api add \
-                        --api-id ${HTTP_TRIGGER} \
-                        --product-id starter \
-                        --resource-group ${RES_GROUP} \
-                        --service-name ${APIM_NAME}
-                    '''
                 }
             }
         }
