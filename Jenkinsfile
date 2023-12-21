@@ -50,7 +50,7 @@ pipeline {
         stage('API import'){
             steps {
                 script {
-                    sh "sed -i 's~url:~url: https://${APIM_NAME}.azure-api.net/httptriggerfn~' openapi.yaml"
+                    sh "sed -i 's~url:~url: https://${APIM_NAME}.azure-api.net~' openapi.yaml"
                     sh '''
                     az apim api import \
                         --path "/HttpTriggerFn" \
