@@ -5,7 +5,7 @@ info:
 servers:
   - url: 
 paths:
-  /HttpTriggerFn:
+  /:
     get:
       summary: HttpTriggerFn
       operationId: get-httptriggerfn
