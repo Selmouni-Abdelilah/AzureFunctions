@@ -53,7 +53,7 @@ pipeline {
                     sh "sed -i 's~url:~url: https://${APIM_NAME}.azure-api.net~' openapi.yaml"
                     sh '''
                     az apim api import \
-                        --path "/HttpTriggerFn" \
+                        --path "/" \
                         --resource-group ${RES_GROUP} \
                         --service-name ${APIM_NAME} \
                         --api-id ${HTTP_TRIGGER} \
