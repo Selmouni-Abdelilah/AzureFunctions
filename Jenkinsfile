@@ -60,7 +60,7 @@ pipeline {
                         --api-type http \
                         --display-name "APIM Function App" \
                         --protocols https \
-                        --service-url "https://${HTTP_TRIGGER}.azurewebsites.net/api/${HTTP_TRIGGER}?clientId=${APIM_NAME}" \
+                        --service-url "https://${HTTP_TRIGGER}.azurewebsites.net" \
                         --specification-format OpenApi \
                         --specification-path "openapi.yaml"
                     '''
