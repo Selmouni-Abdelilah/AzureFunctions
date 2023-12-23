@@ -62,11 +62,28 @@ pipeline {
                         --protocols https \
                         --service-url "https://${HTTP_TRIGGER}.azurewebsites.net" \
                         --specification-format OpenApi \
-                        --specification-path "openapi.yaml"
+                        --specification-path "openapi.yaml" \
+                        --subscription-required false
                     '''
                 }
             }
         }
-        
+         stage('API import'){
+            steps {
+                script {
+                    sh '''
+                    az apim update --resource-group ${RES_GROUP} \
+                    --name ${APIM_NAME} \
+                    --set hostnameConfigurations={{
+                        "hostName": "api.selmouni.website",
+                        "type": "Proxy",
+                        "certificate": null,
+                        "defaultSslBinding": true,
+                        "negotiateClientCertificate": false
+                    }}
+                    '''
+                }     
+            }
+        }
     }
 }
