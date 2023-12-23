@@ -44,4 +44,14 @@ resource "azurerm_api_management" "apim" {
   sku_name = "Developer_1"
 }
 
+resource "azurerm_api_management_custom_domain" "dns" {
+  api_management_id = azurerm_api_management.apim.id
+
+  gateway {
+    host_name    = "api.selmouni.website"
+  }
+}
+
+
+
 
