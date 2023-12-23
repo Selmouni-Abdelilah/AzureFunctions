@@ -68,7 +68,7 @@ pipeline {
                 }
             }
         }
-         stage('API import'){
+         stage('DNS'){
             steps {
                 script {
                     sh '''
