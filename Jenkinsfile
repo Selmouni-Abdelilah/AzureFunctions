@@ -60,29 +60,12 @@ pipeline {
                         --api-type http \
                         --display-name "APIM Function App" \
                         --protocols https \
-                        --service-url "https://${HTTP_TRIGGER}.azurewebsites.net" \
+                        --service-url "https://${HTTP_TRIGGER}.azurewebsites.net/api/http_trigger" \
                         --specification-format OpenApi \
                         --specification-path "openapi.yaml" \
                         --subscription-required false
                     '''
                 }
-            }
-        }
-         stage('DNS'){
-            steps {
-                script {
-                    sh '''
-                    az apim update --resource-group ${RES_GROUP} \
-                    --name ${APIM_NAME} \
-                    --set hostnameConfigurations={{
-                        "hostName": "api.selmouni.website",
-                        "type": "Proxy",
-                        "certificate": null,
-                        "defaultSslBinding": true,
-                        "negotiateClientCertificate": false
-                    }}
-                    '''
-                }     
             }
         }
     }
