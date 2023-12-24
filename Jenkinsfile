@@ -79,13 +79,13 @@ pipeline {
                             choice(name: "Destroy", choices: ["Yes","No"], description: 'Do you want to destroy the infrastructure?')
                             }
                         }
-                    if ( env.destroyResponse == "Yes") {
-                            sh 'terraform init -upgrade'
-                            sh "terraform destroy --auto-approve -lock=false -var 'rg_name=${env.RES_GROUP}' "
+                        if ( env.destroyResponse == "Yes") {
+                                sh 'terraform init -upgrade'
+                                sh "terraform destroy --auto-approve -lock=false -var 'rg_name=${env.RES_GROUP}' "
+                            }
+                        else {
+                            echo "Build completed"
                         }
-                    }
-                    else {
-                        echo "Build completed"
                     }
                 }
             }
