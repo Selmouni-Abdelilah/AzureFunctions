@@ -78,8 +78,8 @@ pipeline {
             }
             steps {
                 script {
+                    dir('Terraform') {
                     if (params.Destroy == "Yes") {
-                        dir('Terraform') {
                             sh 'terraform init -upgrade'
                             sh "terraform destroy --auto-approve -var 'rg_name=${env.RES_GROUP}' -var 'function_name=${env.HTTP_TRIGGER}' -var 'apim_name=${env.APIM_NAME}'"
                         }
