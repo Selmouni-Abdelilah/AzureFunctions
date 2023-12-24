@@ -69,20 +69,21 @@ pipeline {
             }
         }
         stage('Destroy'){
+            input {
+            message 'Do you Want destroy Infra?'
+            ok 'Submit'
+            parameters {
+                choice(name: "Destroy", choices: ["Yes","No"], description: 'Do you want to destroy the infrastructure?')
+                }
+            }
             steps {
                 script {
-                    dir('Terraform') {
-                        def destroyResponse = input {
-                        message 'Do you Want destroy Infra?'
-                        ok 'Submit'
-                        parameters {
-                            choice(name: "Destroy", choices: ["Yes","No"], description: 'Do you want to destroy the infrastructure?')
-                            }
-                        }
-                        if ( env.destroyResponse == "Yes") {
+                        if ( params.Destroy == "Yes") {
+                            dir('Terraform') {
                                 sh 'terraform init -upgrade'
                                 sh "terraform destroy --auto-approve -lock=false -var 'rg_name=${env.RES_GROUP}' "
                             }
+                        }
                         else {
                             echo "Build completed"
                         }
