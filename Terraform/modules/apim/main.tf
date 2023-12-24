@@ -1,6 +1,5 @@
 data "azurerm_resource_group" "rg" {
   name     = var.rg_name
-  location = var.location
 }
 
 resource "azurerm_api_management" "apim" {
