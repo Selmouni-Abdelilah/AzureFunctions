@@ -72,7 +72,7 @@ pipeline {
             input {
                 message 'Do you Want destroy Infra?'
                 ok 'Submit'
-                parameters {
+                params {
                     choice(name: "Destroy", choices: ["Yes","No"])
                 }
             }
