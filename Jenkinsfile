@@ -12,7 +12,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    checkout scmGit(branches: [[name: '*/httpTrigger']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHubcredentials', url: 'https://github.com/Selmouni-Abdelilah/AzureFunctions']])
+                    checkout scmGit(branches: [[name: '*/apim']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitHubcredentials', url: 'https://github.com/Selmouni-Abdelilah/AzureFunctions']])
                 }
             }
         }
@@ -78,7 +78,7 @@ pipeline {
             }
             steps {
                 script {
-                    if (params.destroy == "Yes") {
+                    if (params.Destroy == "Yes") {
                         dir('Terraform') {
                             sh 'terraform init -upgrade'
                             sh "terraform destroy --auto-approve -var 'rg_name=${env.RES_GROUP}' -var 'function_name=${env.HTTP_TRIGGER}' -var 'apim_name=${env.APIM_NAME}'"
